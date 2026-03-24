@@ -27,7 +27,7 @@ class DeviceToken
         $builder->setTable('direct_push_device_tokens')
             ->setCustomRepositoryClass(DeviceTokenRepository::class);
 
-        $builder->addIdColumns(false);
+        $builder->addId();
 
         $builder->createManyToOne('contact', Lead::class)
             ->addJoinColumn('contact_id', 'id', true, false, 'SET NULL')

@@ -32,7 +32,7 @@ class Stat
         $builder->setTable('direct_push_notification_stats')
             ->setCustomRepositoryClass(StatRepository::class);
 
-        $builder->addBigIntIdColumn();
+        $builder->addBigIntIdField();
 
         $builder->createManyToOne('notification', PushNotification::class)
             ->addJoinColumn('notification_id', 'id', true, false, 'SET NULL')
