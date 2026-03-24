@@ -1,0 +1,65 @@
+{% extends '@MauticCore/Default/content.html.twig' %}
+
+{% block headerTitle %}
+    {% if entity.id %}
+        {{ 'mautic.direct_push.notification.edit'|trans({'%name%': entity.name}) }}
+    {% else %}
+        {{ 'mautic.direct_push.notification.new'|trans }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+{{ form_start(form) }}
+<div class="box-layout">
+    <div class="col-md-9 bg-white height-auto">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="pa-md">
+                    <div class="form-group mb-0">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ form_row(form.name) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ form_row(form.description) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ form_row(form.title) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ form_row(form.body) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ form_row(form.url) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                {{ form_row(form.imageUrl) }}
+                            </div>
+                            <div class="col-sm-6">
+                                {{ form_row(form.notificationType) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 bg-white height-auto bdr-l">
+        <div class="pr-lg pl-lg pt-md pb-md">
+            {{ form_row(form.category) }}
+            {{ form_row(form.isPublished) }}
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}
+{% endblock %}

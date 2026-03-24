@@ -1,0 +1,26 @@
+{
+    "name": "lingaist/mautic-direct-push-bundle",
+    "description": "Send push notifications directly via FCM and APNs without OneSignal dependency.",
+    "type": "mautic-plugin",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Lingaist",
+            "homepage": "https://lingaist.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "mautic/core-lib": "^5.0 || ^6.0",
+        "google/auth": "^1.0",
+        "edamov/pushok": "^0.14"
+    },
+    "autoload": {
+        "psr-4": {
+            "MauticPlugin\\MauticDirectPushBundle\\": ""
+        }
+    },
+    "extra": {
+        "install-directory-name": "MauticDirectPushBundle"
+    }
+}

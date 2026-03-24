@@ -1,0 +1,25 @@
+{% set stat = event.extra.stat %}
+{% set type = event.extra.type|default('sent') %}
+
+<div class="direct-push-timeline-event">
+    {% if type == 'sent' %}
+        <p>
+            <strong>{{ stat.notification_title|default(stat.notification_name|default('Push Notification')) }}</strong>
+        </p>
+        {% if stat.is_failed %}
+            <span class="label label-danger">Failed</span>
+            {% if stat.error_message %}
+                <small class="text-muted">{{ stat.error_message }}</small>
+            {% endif %}
+        {% else %}
+            <span class="label label-success">Sent</span>
+        {% endif %}
+        {% if stat.is_clicked %}
+            <span class="label label-primary">Clicked</span>
+        {% endif %}
+    {% elseif type == 'clicked' %}
+        <p>
+            Clicked: <strong>{{ stat.notification_title|default(stat.notification_name|default('Push Notification')) }}</strong>
+        </p>
+    {% endif %}
+</div>

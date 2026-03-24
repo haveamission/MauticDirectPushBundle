@@ -1,0 +1,121 @@
+{% extends '@MauticCore/Default/content.html.twig' %}
+
+{% block headerTitle %}{{ item.name }}{% endblock %}
+
+{% block actions %}
+    {{ include('@MauticCore/Helper/page_actions.html.twig', {
+        'item': item,
+        'templateButtons': {
+            'edit': true,
+            'clone': true,
+            'delete': true,
+            'close': true,
+        },
+        'routeBase': 'mautic_direct_push',
+        'permissionBase': 'direct_push:notifications',
+    }) }}
+{% endblock %}
+
+{% block content %}
+<div class="box-layout">
+    <div class="col-md-9 bg-white height-auto">
+        <div class="bg-auto">
+            <div class="pr-md pl-md pt-lg pb-lg">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-title">{{ 'mautic.direct_push.notification.details'|trans }}</div>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class="fw-b" style="width: 20%;">{{ 'mautic.direct_push.form.title'|trans }}</td>
+                                    <td>{{ item.title }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-b">{{ 'mautic.direct_push.form.body'|trans }}</td>
+                                    <td>{{ item.body }}</td>
+                                </tr>
+                                {% if item.url %}
+                                <tr>
+                                    <td class="fw-b">{{ 'mautic.direct_push.form.url'|trans }}</td>
+                                    <td><a href="{{ item.url }}" target="_blank">{{ item.url }}</a></td>
+                                </tr>
+                                {% endif %}
+                                {% if item.imageUrl %}
+                                <tr>
+                                    <td class="fw-b">{{ 'mautic.direct_push.form.image_url'|trans }}</td>
+                                    <td>{{ item.imageUrl }}</td>
+                                </tr>
+                                {% endif %}
+                                <tr>
+                                    <td class="fw-b">{{ 'mautic.direct_push.form.type'|trans }}</td>
+                                    <td>{{ item.notificationType }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {% if stats is defined %}
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-title">{{ 'mautic.direct_push.notification.stats'|trans }}</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-4 text-center">
+                                <h3>{{ stats.sent|default(0) }}</h3>
+                                <p class="text-muted">{{ 'mautic.direct_push.stat.sent'|trans }}</p>
+                            </div>
+                            <div class="col-sm-4 text-center">
+                                <h3>{{ stats.failed|default(0) }}</h3>
+                                <p class="text-muted">{{ 'mautic.direct_push.stat.failed'|trans }}</p>
+                            </div>
+                            <div class="col-sm-4 text-center">
+                                <h3>{{ stats.clicked|default(0) }}</h3>
+                                <p class="text-muted">{{ 'mautic.direct_push.stat.clicked'|trans }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 bg-white height-auto bdr-l">
+        <div class="pr-lg pl-lg pt-md pb-md">
+            <h5>{{ 'mautic.core.details'|trans }}</h5>
+            <table class="table table-condensed">
+                <tbody>
+                    <tr>
+                        <td class="fw-b">{{ 'mautic.core.id'|trans }}</td>
+                        <td>{{ item.id }}</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-b">{{ 'mautic.core.form.published'|trans }}</td>
+                        <td>
+                            {% if item.isPublished %}
+                                <span class="label label-success">{{ 'mautic.core.form.published.yes'|trans }}</span>
+                            {% else %}
+                                <span class="label label-danger">{{ 'mautic.core.form.published.no'|trans }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% if item.category %}
+                    <tr>
+                        <td class="fw-b">{{ 'mautic.core.category'|trans }}</td>
+                        <td>{{ item.category.title }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <td class="fw-b">{{ 'mautic.direct_push.report.sent_count'|trans }}</td>
+                        <td>{{ item.sentCount }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

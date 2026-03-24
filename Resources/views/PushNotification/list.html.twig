@@ -1,0 +1,83 @@
+{% extends '@MauticCore/Default/content.html.twig' %}
+
+{% block headerTitle %}{{ 'mautic.direct_push.notifications'|trans }}{% endblock %}
+
+{% block actions %}
+    {{ include('@MauticCore/Helper/page_actions.html.twig', {
+        'templateButtons': {
+            'new': true,
+        },
+        'routeBase': 'mautic_direct_push',
+        'permissionBase': 'direct_push:notifications',
+    }) }}
+{% endblock %}
+
+{% block content %}
+<div class="page-list">
+    {{ include('@MauticCore/Helper/list_toolbar.html.twig', {
+        'searchValue': searchValue|default(''),
+        'action': currentRoute,
+    }) }}
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped table-bordered" id="pushNotificationTable">
+            <thead>
+                <tr>
+                    {{ include('@MauticCore/Helper/tableheader.html.twig', {
+                        'text': 'mautic.core.name',
+                        'class': 'col-push-name',
+                    }) }}
+                    {{ include('@MauticCore/Helper/tableheader.html.twig', {
+                        'text': 'mautic.direct_push.form.type',
+                        'class': 'col-push-type',
+                    }) }}
+                    {{ include('@MauticCore/Helper/tableheader.html.twig', {
+                        'text': 'mautic.direct_push.report.sent_count',
+                        'class': 'col-push-sent',
+                    }) }}
+                    {{ include('@MauticCore/Helper/tableheader.html.twig', {
+                        'text': 'mautic.core.id',
+                        'class': 'col-push-id',
+                    }) }}
+                </tr>
+            </thead>
+            <tbody>
+                {% if items|length > 0 %}
+                    {% for item in items %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('mautic_direct_push_action', {'objectAction': 'view', 'objectId': item.id}) }}">
+                                {{ item.name }}
+                            </a>
+                            {% if not item.isPublished %}
+                                <span class="label label-warning">{{ 'mautic.core.form.published.no'|trans }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ item.notificationType }}</td>
+                        <td>{{ item.sentCount }}</td>
+                        <td>{{ item.id }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            {{ 'mautic.core.noresults'|trans }}
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if items|length > 0 %}
+        <div class="panel-footer">
+            {{ include('@MauticCore/Helper/pagination.html.twig', {
+                'totalItems': totalItems|default(0),
+                'page': page|default(1),
+                'limit': limit|default(30),
+                'baseUrl': currentRoute,
+            }) }}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
