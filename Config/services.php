@@ -13,7 +13,10 @@ return function (ContainerConfigurator $configurator): void {
         ->public();
 
     $services->load('MauticPlugin\\MauticDirectPushBundle\\', '../')
-        ->exclude('../{'.implode(',', MauticCoreExtension::DEFAULT_EXCLUDES).'}');
+        ->exclude([
+            '../{'.implode(',', MauticCoreExtension::DEFAULT_EXCLUDES).'}',
+            '../Transport/PushResult.php',
+        ]);
 
     $services->load('MauticPlugin\\MauticDirectPushBundle\\Entity\\', '../Entity/*Repository.php');
 };
