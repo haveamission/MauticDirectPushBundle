@@ -14,4 +14,6 @@ return function (ContainerConfigurator $configurator): void {
 
     $services->load('MauticPlugin\\MauticDirectPushBundle\\', '../')
         ->exclude('../{'.implode(',', MauticCoreExtension::DEFAULT_EXCLUDES).'}');
+
+    $services->load('MauticPlugin\\MauticDirectPushBundle\\Entity\\', '../Entity/*Repository.php');
 };
