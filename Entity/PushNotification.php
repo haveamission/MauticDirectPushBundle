@@ -24,6 +24,8 @@ class PushNotification extends FormEntity
     private ?Category $category = null;
     private int $sentCount = 0;
     private ?string $description = null;
+    private ?\DateTimeInterface $publishUp = null;
+    private ?\DateTimeInterface $publishDown = null;
 
     public static function loadMetadata(ORM\ClassMetadata $metadata): void
     {
@@ -218,6 +220,30 @@ class PushNotification extends FormEntity
     public function incrementSentCount(int $count = 1): self
     {
         $this->sentCount += $count;
+        return $this;
+    }
+
+    public function getPublishUp(): ?\DateTimeInterface
+    {
+        return $this->publishUp;
+    }
+
+    public function setPublishUp(?\DateTimeInterface $publishUp): self
+    {
+        $this->isChanged('publishUp', $publishUp);
+        $this->publishUp = $publishUp;
+        return $this;
+    }
+
+    public function getPublishDown(): ?\DateTimeInterface
+    {
+        return $this->publishDown;
+    }
+
+    public function setPublishDown(?\DateTimeInterface $publishDown): self
+    {
+        $this->isChanged('publishDown', $publishDown);
+        $this->publishDown = $publishDown;
         return $this;
     }
 }
