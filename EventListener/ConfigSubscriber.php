@@ -22,7 +22,9 @@ class ConfigSubscriber implements EventSubscriberInterface
     public function onConfigGenerate(ConfigBuilderEvent $event): void
     {
         $event->addForm([
+            'bundle'     => 'MauticDirectPushBundle',
             'formAlias'  => 'direct_push_config',
+            'formType'   => \MauticPlugin\MauticDirectPushBundle\Form\Type\ConfigType::class,
             'formTheme'  => '@MauticDirectPush/FormTheme/Config/_config_direct_push_config_widget.html.twig',
             'parameters' => $event->getParametersFromConfig('MauticDirectPushBundle'),
         ]);
