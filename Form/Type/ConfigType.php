@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace MauticPlugin\MauticDirectPushBundle\Form\Type;
 
+use Mautic\CoreBundle\Form\Type\YesNoButtonGroupType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -15,14 +15,14 @@ class ConfigType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('direct_push_enabled', CheckboxType::class, [
+        $builder->add('direct_push_enabled', YesNoButtonGroupType::class, [
             'label'      => 'mautic.direct_push.config.enabled',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => ['class' => 'form-control', 'tooltip' => 'mautic.direct_push.config.enabled.tooltip'],
             'required'   => false,
         ]);
 
-        $builder->add('direct_push_fcm_enabled', CheckboxType::class, [
+        $builder->add('direct_push_fcm_enabled', YesNoButtonGroupType::class, [
             'label'      => 'mautic.direct_push.config.fcm.enabled',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => ['class' => 'form-control'],
@@ -51,7 +51,7 @@ class ConfigType extends AbstractType
             'required'   => false,
         ]);
 
-        $builder->add('direct_push_apns_enabled', CheckboxType::class, [
+        $builder->add('direct_push_apns_enabled', YesNoButtonGroupType::class, [
             'label'      => 'mautic.direct_push.config.apns.enabled',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => ['class' => 'form-control'],
@@ -91,7 +91,7 @@ class ConfigType extends AbstractType
             'required'   => false,
         ]);
 
-        $builder->add('direct_push_apns_production', CheckboxType::class, [
+        $builder->add('direct_push_apns_production', YesNoButtonGroupType::class, [
             'label'      => 'mautic.direct_push.config.apns.production',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => ['class' => 'form-control', 'tooltip' => 'mautic.direct_push.config.apns.production.tooltip'],

@@ -1,64 +1,79 @@
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h3 class="panel-title">{{ 'mautic.direct_push.config.header'|trans }}</h3>
-    </div>
-    <div class="panel-body">
-        <div class="alert alert-info">
-            {{ 'mautic.direct_push.config.info'|trans }}
-        </div>
-
-        <div class="row">
-            <div class="col-sm-6">
-                {{ form_row(form.direct_push_enabled) }}
+{% block _config_direct_push_config_widget %}
+<h4 class="fw-sb mt-48 mb-xs">{{ 'mautic.direct_push.config.header'|trans }}</h4>
+<div class="text-muted small pb-md">{{ 'mautic.direct_push.config.info'|trans }}</div>
+<div class="row">
+    <div class="panel panel-default mb-md">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(form.direct_push_enabled) }}
+                </div>
             </div>
-            <div class="col-sm-6">
-                {{ form_row(form.direct_push_batch_size) }}
-            </div>
-        </div>
-
-        <hr />
-        <h4>{{ 'mautic.direct_push.config.fcm.header'|trans }}</h4>
-
-        <div class="row">
-            <div class="col-sm-6">
-                {{ form_row(form.direct_push_fcm_enabled) }}
-            </div>
-            <div class="col-sm-6">
-                {{ form_row(form.direct_push_fcm_project_id) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                {{ form_row(form.direct_push_fcm_service_account) }}
-            </div>
-        </div>
-
-        <hr />
-        <h4>{{ 'mautic.direct_push.config.apns.header'|trans }}</h4>
-
-        <div class="row">
-            <div class="col-sm-6">
-                {{ form_row(form.direct_push_apns_enabled) }}
-            </div>
-            <div class="col-sm-6">
-                {{ form_row(form.direct_push_apns_production) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4">
-                {{ form_row(form.direct_push_apns_key_id) }}
-            </div>
-            <div class="col-sm-4">
-                {{ form_row(form.direct_push_apns_team_id) }}
-            </div>
-            <div class="col-sm-4">
-                {{ form_row(form.direct_push_apns_bundle_id) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                {{ form_row(form.direct_push_apns_key_contents) }}
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(form.direct_push_batch_size) }}
+                </div>
             </div>
         </div>
     </div>
 </div>
+<h4 class="fw-sb mt-48 mb-xs">{{ 'mautic.direct_push.config.fcm.header'|trans }}</h4>
+<div class="row">
+    <div class="panel panel-default mb-md">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(form.direct_push_fcm_enabled) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(form.direct_push_fcm_project_id) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(form.direct_push_fcm_service_account) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<h4 class="fw-sb mt-48 mb-xs">{{ 'mautic.direct_push.config.apns.header'|trans }}</h4>
+<div class="row">
+    <div class="panel panel-default mb-md">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(form.direct_push_apns_enabled) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(form.direct_push_apns_production) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(form.direct_push_apns_key_id) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(form.direct_push_apns_team_id) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(form.direct_push_apns_bundle_id) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(form.direct_push_apns_key_contents) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
