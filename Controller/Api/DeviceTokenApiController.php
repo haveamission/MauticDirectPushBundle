@@ -16,6 +16,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DeviceTokenApiController extends CommonApiController
 {
+    private EntityManagerInterface $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
+
     public function registerAction(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -45,11 +52,8 @@ class DeviceTokenApiController extends CommonApiController
             );
         }
 
-        /** @var EntityManagerInterface $em */
-        $em = $this->getDoctrine()->getManager();
-
         /** @var DeviceTokenRepository $repo */
-        $repo = $em->getRepository(DeviceToken::class);
+        $repo = $this->em->getRepository(DeviceToken::class);
 
         $contact = null;
 
@@ -86,8 +90,8 @@ class DeviceTokenApiController extends CommonApiController
             ->setAppId($appId)
             ->setUpdatedAt(new \DateTime());
 
-        $em->persist($deviceToken);
-        $em->flush();
+        $this->em->persist($deviceToken);
+        $this->em->flush();
 
         return new JsonResponse([
             'id'         => $deviceToken->getId(),
@@ -100,11 +104,8 @@ class DeviceTokenApiController extends CommonApiController
 
     public function removeAction(Request $request, string $token): JsonResponse
     {
-        /** @var EntityManagerInterface $em */
-        $em = $this->getDoctrine()->getManager();
-
         /** @var DeviceTokenRepository $repo */
-        $repo = $em->getRepository(DeviceToken::class);
+        $repo = $this->em->getRepository(DeviceToken::class);
 
         $deviceToken = $repo->findByToken($token);
 
@@ -118,8 +119,8 @@ class DeviceTokenApiController extends CommonApiController
         $deviceToken->setIsActive(false)
             ->setUpdatedAt(new \DateTime());
 
-        $em->persist($deviceToken);
-        $em->flush();
+        $this->em->persist($deviceToken);
+        $this->em->flush();
 
         return new JsonResponse(['success' => true], Response::HTTP_OK);
     }
