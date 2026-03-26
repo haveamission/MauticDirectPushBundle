@@ -12,10 +12,9 @@ use Mautic\CoreBundle\Factory\ModelFactory;
 use Mautic\CoreBundle\Helper\AppVersion;
 use Mautic\CoreBundle\Helper\CoreParametersHelper;
 use Mautic\CoreBundle\Security\Permissions\CorePermissions;
+use Mautic\CoreBundle\Translation\Translator;
 use Mautic\LeadBundle\Entity\Lead;
-use Mautic\LeadBundle\Model\LeadModel;
 use MauticPlugin\MauticDirectPushBundle\Entity\DeviceToken;
-use MauticPlugin\MauticDirectPushBundle\Entity\DeviceTokenRepository;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,7 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Contracts\Translation\TranslatorInterface as Translator;
 
 class DeviceTokenApiController extends CommonApiController
 {
@@ -76,29 +74,26 @@ class DeviceTokenApiController extends CommonApiController
             );
         }
 
-        /** @var DeviceTokenRepository $repo */
-        $repo = $this->em->getRepository(DeviceToken::class);
-
+        $contactRepo = $this->em->getRepository(Lead::class);
         $contact = null;
 
         if ($contactId) {
-            /** @var LeadModel $leadModel */
-            $leadModel = $this->getModel('lead');
-            $contact = $leadModel->getEntity((int) $contactId);
+            $contact = $contactRepo->findOneBy(['id' => (int) $contactId]);
         } elseif ($email) {
-            /** @var LeadModel $leadModel */
-            $leadModel = $this->getModel('lead');
-            $contact = $leadModel->getRepository()->getContactByEmail($email);
+            $contact = $contactRepo->findOneBy(['email' => $email]);
         }
 
-        if (!$contact instanceof Lead) {
-            return new JsonResponse(
-                ['error' => 'Contact not found. Provide a valid contact_id or email.'],
-                Response::HTTP_NOT_FOUND
-            );
+        if (null === $contact) {
+            $contact = new Lead();
+            $contact->setLastActive(new \DateTime());
+            if ($email) {
+                $contact->setEmail($email);
+            }
+            $contactRepo->saveEntity($contact);
         }
 
-        $deviceToken = $repo->findByContactAndToken((int) $contact->getId(), $token);
+        $deviceTokenRepo = $this->em->getRepository(DeviceToken::class);
+        $deviceToken = $deviceTokenRepo->findByContactAndToken((int) $contact->getId(), $token);
 
         if (!$deviceToken) {
             $deviceToken = new DeviceToken();
@@ -128,10 +123,8 @@ class DeviceTokenApiController extends CommonApiController
 
     public function removeAction(Request $request, string $token): JsonResponse
     {
-        /** @var DeviceTokenRepository $repo */
-        $repo = $this->em->getRepository(DeviceToken::class);
-
-        $deviceToken = $repo->findByToken($token);
+        $deviceTokenRepo = $this->em->getRepository(DeviceToken::class);
+        $deviceToken = $deviceTokenRepo->findByToken($token);
 
         if (!$deviceToken) {
             return new JsonResponse(
