@@ -87,7 +87,7 @@ class PushNotificationController extends AbstractStandardFormController
             $entity = $args['viewParameters']['item'] ?? null;
 
             if ($entity instanceof PushNotification) {
-                $statRepo = $this->getDoctrine()
+                $statRepo = $this->doctrine
                     ->getRepository(\MauticPlugin\MauticDirectPushBundle\Entity\Stat::class);
 
                 $args['viewParameters']['stats'] = $statRepo->getNotificationStats($entity->getId());

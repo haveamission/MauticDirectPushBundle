@@ -20,5 +20,5 @@ return function (ContainerConfigurator $configurator): void {
 
     $services->load('MauticPlugin\\MauticDirectPushBundle\\Entity\\', '../Entity/*Repository.php');
 
-    $services->alias('mautic.model.direct_push.notification', \MauticPlugin\MauticDirectPushBundle\Model\PushNotificationModel::class);
+    $services->alias('mautic.direct_push.model.notification', \MauticPlugin\MauticDirectPushBundle\Model\PushNotificationModel::class);
 };

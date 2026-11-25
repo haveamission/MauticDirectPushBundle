@@ -83,6 +83,13 @@ class DeviceTokenApiController extends CommonApiController
             $contact = $contactRepo->findOneBy(['email' => $email]);
         }
 
+        $deviceTokenRepo = $this->em->getRepository(DeviceToken::class);
+
+        // Anonymous re-registration of a known device keeps its contact instead of creating a new one.
+        if (null === $contact && !$contactId && !$email) {
+            $contact = $deviceTokenRepo->findByToken($token)?->getContact();
+        }
+
         if (null === $contact) {
             $contact = new Lead();
             $contact->setLastActive(new \DateTime());
@@ -92,7 +99,6 @@ class DeviceTokenApiController extends CommonApiController
             $contactRepo->saveEntity($contact);
         }
 
-        $deviceTokenRepo = $this->em->getRepository(DeviceToken::class);
         $deviceToken = $deviceTokenRepo->findByContactAndToken((int) $contact->getId(), $token);
 
         if (!$deviceToken) {

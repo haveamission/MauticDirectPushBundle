@@ -6,6 +6,7 @@ namespace MauticPlugin\MauticDirectPushBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Mautic\ApiBundle\Serializer\Driver\ApiMetadataDriver;
 use Mautic\CategoryBundle\Entity\Category;
 use Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder;
 use Mautic\CoreBundle\Entity\FormEntity;
@@ -79,6 +80,25 @@ class PushNotification extends FormEntity
             ->build();
 
         $builder->addPublishDates();
+    }
+
+    public static function loadApiMetadata(ApiMetadataDriver $metadata): void
+    {
+        $metadata->setGroupPrefix('pushNotification')
+            ->addListProperties(['id', 'name', 'title', 'category'])
+            ->addProperties([
+                'body',
+                'url',
+                'imageUrl',
+                'iconUrl',
+                'dataJson',
+                'notificationType',
+                'sentCount',
+                'description',
+                'publishUp',
+                'publishDown',
+            ])
+            ->build();
     }
 
     public function getId(): ?int
